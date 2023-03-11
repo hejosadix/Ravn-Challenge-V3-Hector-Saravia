@@ -1,0 +1,32 @@
+query GetPeople($first: Int, $after: String) {
+    allPeople(first:$first, after:$after){
+        pageInfo{
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+        }
+        totalCount
+        people{
+            id
+            name
+            eyeColor
+            hairColor
+            skinColor
+            birthYear
+            vehicleConnection{
+                vehicles{
+                    name
+                    model
+                }
+            }
+            species{
+                name
+                homeworld{
+                    name
+                }
+            }
+        }
+    }
+
+}

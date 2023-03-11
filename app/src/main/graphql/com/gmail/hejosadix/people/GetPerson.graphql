@@ -1,0 +1,22 @@
+query GetPerson($id: ID) {
+    person(id: $id) {
+        id
+        name
+        eyeColor
+        hairColor
+        skinColor
+        birthYear
+        vehicleConnection {
+            vehicles {
+                name
+                model
+            }
+        }
+        species {
+            name
+            homeworld {
+                name
+            }
+        }
+    }
+}
