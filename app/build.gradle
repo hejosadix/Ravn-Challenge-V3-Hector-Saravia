@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    buildFeatures.viewBinding = true
     namespace 'com.gmail.hejosadix.starwars'
     compileSdk 33
 
@@ -35,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     def apollo_version = "3.7.4"
     def koin_version = "3.3.3"
     implementation 'androidx.core:core-ktx:1.9.0'

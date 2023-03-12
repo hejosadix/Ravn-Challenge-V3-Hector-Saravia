@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.people.details.PersonDetailsFragment">
+
+    <include
+        android:id="@+id/appBarDetails"
+        layout="@layout/app_bar" />
+
+    <include
+        android:id="@+id/loadingView"
+        layout="@layout/loading_layout"
+        android:visibility="gone" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/general_information" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:dividerHorizontal"
+                android:showDividers="middle"
+                android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView android:text="@string/eye_color" />
+
+                    <TextView
+                        android:id="@+id/eyeColorTextView"
+                        android:gravity="end"
+                        android:text="@string/eye_color" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/hair_color" />
+
+                    <TextView
+                        android:id="@+id/hairColorTextView"
+                        android:gravity="end"
+                        android:text="@string/hair_color" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/skin_color" />
+
+                    <TextView
+                        android:id="@+id/skinColorTextView"
+                        android:gravity="end"
+                        android:text="@string/skin_color" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView android:text="@string/birth_year" />
+
+                    <TextView
+                        android:id="@+id/birthYearTextView"
+                        android:gravity="end"
+                        android:text="@string/birth_year" />
+                </TableRow>
+
+                <TableRow>
+
+                    <View />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vehicles" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vehiclesRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_people" />
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
