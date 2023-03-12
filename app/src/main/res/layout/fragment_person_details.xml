@@ -15,6 +15,15 @@
         layout="@layout/loading_layout"
         android:visibility="gone" />
 
+    <ImageButton
+        android:id="@+id/favoriteImageButton"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:contentDescription="@string/favorite"
+        android:src="@drawable/baseline_star_outline_24" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

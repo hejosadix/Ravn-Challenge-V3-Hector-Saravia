@@ -2,6 +2,7 @@ package com.gmail.hejosadix.starwars.data.mappers
 
 import com.gmail.hejosadix.GetPeopleQuery
 import com.gmail.hejosadix.GetPersonQuery
+import com.gmail.hejosadix.starwars.data.local.entity.Favorite
 import com.gmail.hejosadix.starwars.domain.models.*
 
 
@@ -64,4 +65,15 @@ fun GetPersonQuery.Vehicle.mapToDomainModel() = Vehicle(
     id = id,
     name = name.orEmpty(),
     model = model.orEmpty(),
+)
+
+fun Person.toFavorite() = Favorite(
+    id = this.id,
+    name = name,
+    eyeColor = eyeColor,
+    hairColor = hairColor,
+    skinColor = skinColor,
+    birthYear = birthYear,
+    species = species,
+    vehicleConnection = vehicleConnection,
 )

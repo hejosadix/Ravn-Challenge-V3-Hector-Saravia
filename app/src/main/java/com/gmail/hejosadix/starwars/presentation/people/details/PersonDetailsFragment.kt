@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.hejosadix.starwars.R
 import com.gmail.hejosadix.starwars.data.common.StarWarsResult
+import com.gmail.hejosadix.starwars.data.local.entity.Favorite
 import com.gmail.hejosadix.starwars.databinding.FragmentPersonDetailsBinding
 import com.gmail.hejosadix.starwars.domain.models.Person
 import com.gmail.hejosadix.starwars.utils.extencions.ifNullOrBlankUnknown
@@ -24,10 +25,12 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PersonDetailsFragment : Fragment() {
+class PersonDetailsFragment : Fragment(), View.OnClickListener {
 
     private val args: PersonDetailsFragmentArgs by navArgs()
     private var id: String = ""
+    private var person: Person? = null
+    private var favorite: Favorite? = null
     private lateinit var vehicleAdapter: VehicleAdapter
     private val viewModel: PersonDetailsViewModel by viewModel()
     private lateinit var binding: FragmentPersonDetailsBinding
@@ -44,7 +47,12 @@ class PersonDetailsFragment : Fragment() {
         binding = FragmentPersonDetailsBinding.inflate(inflater)
         setupAppBar()
         setupAdapter()
+        setupListener()
         return binding.root
+    }
+
+    private fun setupListener() {
+        binding.favoriteImageButton.setOnClickListener(this)
     }
 
     private fun setupAppBar() {
@@ -95,11 +103,24 @@ class PersonDetailsFragment : Fragment() {
                     }
 
                 }
+                viewModel.getFavorite(id = id).collectLatest { data ->
+                    favorite = data
+                    when (data) {
+                        null -> {
+                            binding.favoriteImageButton.setImageResource(R.drawable.baseline_star_outline_24)
+                        }
+                        else -> {
+                            binding.favoriteImageButton.setImageResource(R.drawable.baseline_star_rate_24)
+                        }
+                    }
+
+                }
             }
         }
     }
 
     private fun setFieldsValues(person: Person) {
+        this.person = person
         with(binding) {
             binding.appBarDetails.titleTextView.text =
                 person.name.ifNullOrBlankUnknown(
@@ -121,5 +142,25 @@ class PersonDetailsFragment : Fragment() {
         vehicleAdapter.setItems(
             items = person.vehicleConnection.vehicles,
         )
+    }
+
+    override fun onClick(view: View) {
+        when (view) {
+            binding.favoriteImageButton -> {
+                favorite.run {
+                    if (this == null) {
+                        person?.run {
+                            viewModel.savePersonInFavorite(person = this)
+                        }
+                    } else {
+                        viewModel.deletePersonInFavorite(id = id)
+                    }
+                }
+
+            }
+            else -> {
+
+            }
+        }
     }
 }

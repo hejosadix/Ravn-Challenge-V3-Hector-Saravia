@@ -6,6 +6,7 @@ import com.gmail.hejosadix.starwars.data.repository.PeopleRepositoryImpl
 import com.gmail.hejosadix.starwars.domain.repository.PeopleRepository
 import com.gmail.hejosadix.starwars.domain.usecases.people.GetPeopleUseCase
 import com.gmail.hejosadix.starwars.domain.usecases.people.GetPersonUseCase
+import com.gmail.hejosadix.starwars.domain.usecases.people.PersonUseCases
 import org.koin.dsl.module
 
 
@@ -28,6 +29,14 @@ val peopleModule = module {
     factory {
         GetPersonUseCase(
             repository = get(),
+        )
+    }
+    factory {
+        PersonUseCases(
+            getPersonUseCase = get(),
+            getFavoriteUseCase = get(),
+            deleteFavoriteUseCase = get(),
+            saveFavoriteUseCase = get(),
         )
     }
 }

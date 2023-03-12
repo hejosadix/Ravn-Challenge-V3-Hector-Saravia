@@ -14,4 +14,5 @@
     <string name="skin_color">Skin Color</string>
     <string name="birth_year">Birth Year</string>
     <string name="vehicles">Vehicles</string>
+    <string name="favorite">favorite</string>
 </resources>

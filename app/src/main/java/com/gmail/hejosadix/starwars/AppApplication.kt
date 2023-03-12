@@ -5,6 +5,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import android.app.Application
 import com.gmail.hejosadix.starwars.di.appModule
+import com.gmail.hejosadix.starwars.di.favoriteModule
 import com.gmail.hejosadix.starwars.di.peopleModule
 import com.gmail.hejosadix.starwars.di.viewModelModel
 
@@ -18,6 +19,7 @@ class AppApplication : Application() {
                 appModule,
                 peopleModule,
                 viewModelModel,
+                favoriteModule,
             )
         }
     }
