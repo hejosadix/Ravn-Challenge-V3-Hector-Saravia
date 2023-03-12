@@ -10,11 +10,51 @@
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/white</item>
     </style>
+
+    <style name="H2DefaultTextViewStyle">
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InfoCellTextViewStyle">
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:paddingEnd">@dimen/space_horizontal</item>
+        <item name="android:paddingStart">@dimen/space_horizontal</item>
+    </style>
+
+    <style name="H2LowEmphasisTextViewStyle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="H2HighEmphasisTextViewStyle">
+        <item name="android:textColor">@color/emphasis</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="P1LowEmphasisTextViewStyle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="InfoRowStyle">
+        <item name="android:paddingTop">@dimen/space_vertical</item>
+        <item name="android:paddingBottom">@dimen/space_vertical</item>
+        <item name="android:paddingStart">@dimen/space_zero</item>
+    </style>
+
 </resources>

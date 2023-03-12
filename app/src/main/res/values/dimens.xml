@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="margin_start">16dp</dimen>
+    <dimen name="space_default">16dp</dimen>
+    <dimen name="space_start">16dp</dimen>
+    <dimen name="space_end">16dp</dimen>
+    <dimen name="space_horizontal">16dp</dimen>
+    <dimen name="space_vertical">16dp</dimen>
+    <dimen name="space_zero">0dp</dimen>
+    <dimen name="space_top_header">32dp</dimen>
+    <dimen name="space_bottom_header">8dp</dimen>
+
+
 </resources>

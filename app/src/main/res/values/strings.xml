@@ -15,4 +15,5 @@
     <string name="birth_year">Birth Year</string>
     <string name="vehicles">Vehicles</string>
     <string name="favorite">favorite</string>
+    <string name="progress">progress</string>
 </resources>

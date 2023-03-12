@@ -5,7 +5,9 @@
     android:orientation="horizontal">
 
     <TextView
+        android:paddingVertical="@dimen/space_vertical"
         android:id="@+id/nameTextView"
+        style="@style/H2LowEmphasisTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="1"

@@ -31,12 +31,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginStart="@dimen/space_start"
             android:orientation="vertical">
 
             <TextView
+                style="@style/H2DefaultTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_top_header"
+                android:paddingBottom="@dimen/space_bottom_header"
                 android:text="@string/general_information" />
 
             <TableLayout
@@ -46,43 +49,51 @@
                 android:showDividers="middle"
                 android:stretchColumns="1">
 
-                <TableRow>
+                <TableRow style="@style/InfoRowStyle">
 
-                    <TextView android:text="@string/eye_color" />
+                    <TextView
+                        style="@style/H2LowEmphasisTextViewStyle"
+                        android:text="@string/eye_color" />
 
                     <TextView
                         android:id="@+id/eyeColorTextView"
-                        android:gravity="end"
+                        style="@style/InfoCellTextViewStyle"
                         android:text="@string/eye_color" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow style="@style/InfoRowStyle">
 
-                    <TextView android:text="@string/hair_color" />
+                    <TextView
+                        style="@style/H2LowEmphasisTextViewStyle"
+                        android:text="@string/hair_color" />
 
                     <TextView
                         android:id="@+id/hairColorTextView"
-                        android:gravity="end"
+                        style="@style/InfoCellTextViewStyle"
                         android:text="@string/hair_color" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow style="@style/InfoRowStyle">
 
-                    <TextView android:text="@string/skin_color" />
+                    <TextView
+                        style="@style/H2LowEmphasisTextViewStyle"
+                        android:text="@string/skin_color" />
 
                     <TextView
                         android:id="@+id/skinColorTextView"
-                        android:gravity="end"
+                        style="@style/InfoCellTextViewStyle"
                         android:text="@string/skin_color" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow style="@style/InfoRowStyle">
 
-                    <TextView android:text="@string/birth_year" />
+                    <TextView
+                        style="@style/H2LowEmphasisTextViewStyle"
+                        android:text="@string/birth_year" />
 
                     <TextView
                         android:id="@+id/birthYearTextView"
-                        android:gravity="end"
+                        style="@style/InfoCellTextViewStyle"
                         android:text="@string/birth_year" />
                 </TableRow>
 
@@ -93,8 +104,11 @@
             </TableLayout>
 
             <TextView
+                style="@style/H2DefaultTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_top_header"
+                android:paddingBottom="@dimen/space_bottom_header"
                 android:text="@string/vehicles" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -102,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_people" />
+                tools:listitem="@layout/item_vehicle" />
         </LinearLayout>
 
 

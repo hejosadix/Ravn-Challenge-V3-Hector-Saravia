@@ -33,7 +33,7 @@
                 android:id="@+id/peopleRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_start"
+                android:layout_marginStart="@dimen/space_start"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_people">
 
