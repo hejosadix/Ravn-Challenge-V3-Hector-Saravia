@@ -61,6 +61,13 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     //Gson
     implementation "com.google.code.gson:gson:$gson_version"
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation "io.mockk:mockk:1.12.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+
 }
 apollo {
     packageName.set("com.gmail.hejosadix")
