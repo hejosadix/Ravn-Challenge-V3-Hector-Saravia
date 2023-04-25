@@ -37,7 +37,6 @@ class PeopleFragment : Fragment() {
         setupAppBar()
         setupTextListener()
         setupAdapter()
-        viewModel.getAllPeople()
         return binding.root
     }
 
@@ -54,7 +53,7 @@ class PeopleFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                peopleAdapter.filter(name = s.toString())
+                viewModel.searchPeople(text = s.toString())
             }
         })
     }
@@ -77,33 +76,18 @@ class PeopleFragment : Fragment() {
                 LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
         }
+
+        binding.peopleRecycleView.adapter = peopleAdapter.withLoadStateHeaderAndFooter(
+            header = PeopleLoadStateAdapter(),
+            footer = PeopleLoadStateAdapter(),
+        )
     }
 
     private fun setupCollectors() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.peopleUiState.collectLatest { data ->
-                    when (data) {
-                        is PeopleUiState.Add -> {
-                            peopleAdapter.addItems(
-                                items = data.data,
-                            )
-                        }
-                        is PeopleUiState.Error -> {
-                            binding.loadingView.root.visibility = View.GONE
-                            binding.errorView.root.visibility = View.VISIBLE
-                        }
-                        PeopleUiState.Executed -> {
-                            binding.loadingView.root.visibility = View.GONE
-                        }
-
-                        PeopleUiState.Loading -> {
-                            binding.loadingView.root.visibility = View.VISIBLE
-                        }
-                        PeopleUiState.None -> {
-
-                        }
-                    }
+                viewModel.getAllPeople().collectLatest { people ->
+                    peopleAdapter.submitData(people)
                 }
             }
         }

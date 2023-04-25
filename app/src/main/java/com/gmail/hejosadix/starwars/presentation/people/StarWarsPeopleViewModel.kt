@@ -2,53 +2,33 @@ package com.gmail.hejosadix.starwars.presentation.people
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gmail.hejosadix.starwars.data.common.StarWarsResult
-import com.gmail.hejosadix.starwars.domain.models.PageInfo
+import androidx.paging.cachedIn
+import androidx.paging.filter
 import com.gmail.hejosadix.starwars.domain.models.Person
 import com.gmail.hejosadix.starwars.domain.usecases.people.GetPeopleUseCase
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 
-import kotlinx.coroutines.launch
-
-class StarWarsPeopleViewModel(private val getPeopleUseCase: GetPeopleUseCase) : ViewModel() {
+class StarWarsPeopleViewModel(getPeopleUseCase: GetPeopleUseCase) : ViewModel() {
     private val _peopleUiState =
         MutableStateFlow<PeopleUiState<List<Person>>>(PeopleUiState.None)
     val peopleUiState: StateFlow<PeopleUiState<List<Person>>> = _peopleUiState
-    private var job: Job? = null
-    fun getAllPeople(first: Int = 5, after: String = "") {
-        job?.cancel()
-        job = viewModelScope.launch {
-            getPeopleUseCase.invoke(first = first, after = after).collectLatest {
-                when (it) {
-                    is StarWarsResult.Success -> {
-                        _peopleUiState.value = PeopleUiState.Add(
-                            data = it.data.people,
-                        )
-                        hasNextPage(pageInfo = it.data.pageInfo)
-                    }
-                    is StarWarsResult.Error -> {
-                        _peopleUiState.value =
-                            PeopleUiState.Error(it.exception.message.orEmpty())
-                    }
-                    is StarWarsResult.Loading -> {
+    private val querySearch: MutableStateFlow<String> = MutableStateFlow("")
+    private val people = getPeopleUseCase.invoke().cachedIn(viewModelScope)
 
-                        _peopleUiState.value = PeopleUiState.Loading
-                    }
-                }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun getAllPeople() = querySearch.flatMapLatest { queryString ->
+        people.map {
+            it.filter { person ->
+                person.name.contains(queryString, ignoreCase = true)
             }
         }
     }
 
-    private fun hasNextPage(pageInfo: PageInfo) {
-        if (pageInfo.hasNextPage) {
-            getAllPeople(after = pageInfo.endCursor)
-        } else {
-            _peopleUiState.value = PeopleUiState.Executed
-        }
+    fun searchPeople(
+        text: String
+    ) {
+        querySearch.value = text
     }
 
 }

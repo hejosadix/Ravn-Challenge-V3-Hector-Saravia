@@ -5,10 +5,7 @@ import com.gmail.hejosadix.starwars.domain.repository.PeopleRepository
 class GetPeopleUseCase constructor(
     private val repository: PeopleRepository,
 ) {
-    suspend operator fun invoke(
-        first: Int,
-        after: String,
+    operator fun invoke(
     ) = repository.getPeople(
-        first = first, after = after,
     )
 }

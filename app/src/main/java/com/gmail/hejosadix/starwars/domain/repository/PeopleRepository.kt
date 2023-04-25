@@ -1,14 +1,13 @@
 package com.gmail.hejosadix.starwars.domain.repository
 
+import androidx.paging.PagingData
 import com.gmail.hejosadix.starwars.data.common.StarWarsResult
 import com.gmail.hejosadix.starwars.domain.models.Person
-import com.gmail.hejosadix.starwars.domain.models.StarWarsPeople
 import kotlinx.coroutines.flow.Flow
 
 interface PeopleRepository {
-    suspend fun getPeople(
-        first: Int, after: String,
-    ): Flow<StarWarsResult<StarWarsPeople>>
+     fun getPeople(
+    ): Flow<PagingData<Person>>
 
     suspend fun getPerson(
         id: String,

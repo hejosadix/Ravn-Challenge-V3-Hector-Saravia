@@ -1,15 +1,15 @@
 package com.gmail.hejosadix.starwars.data.remote.datasource
 
 
-import com.gmail.hejosadix.GetPeopleQuery
+
+import androidx.paging.PagingData
 import com.gmail.hejosadix.GetPersonQuery
 import com.gmail.hejosadix.starwars.data.common.StarWarsResult
-
+import com.gmail.hejosadix.starwars.domain.models.Person
+import kotlinx.coroutines.flow.Flow
 interface PeopleRemoteDataSource {
-    suspend fun getPeople(
-        first: Int,
-        after: String,
-    ): StarWarsResult<GetPeopleQuery.AllPeople?>
+      fun getPeople(
+    ): Flow<PagingData<Person>>
 
     suspend fun getPerson(
         id: String,
