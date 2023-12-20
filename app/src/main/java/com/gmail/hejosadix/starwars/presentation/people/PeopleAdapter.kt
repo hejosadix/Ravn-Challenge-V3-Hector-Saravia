@@ -3,21 +3,19 @@ package com.gmail.hejosadix.starwars.presentation.people
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.hejosadix.starwars.R
 import com.gmail.hejosadix.starwars.databinding.ItemPeopleBinding
+import com.gmail.hejosadix.starwars.databinding.ItemPeopleLoadStateFooterBinding
 import com.gmail.hejosadix.starwars.domain.models.Person
 import com.gmail.hejosadix.starwars.utils.extencions.ifNullOrBlankUnknown
-import java.util.LinkedList
-
 class PeopleAdapter constructor(
     private val clickAction: (Person) -> Unit,
-) : RecyclerView.Adapter<PeopleAdapter.PeopleViewHolder>() {
-
-    private var textFilter: String = ""
-    private val items: LinkedList<Person> = LinkedList()
-    private var itemsOnScreen: MutableList<Person> = ArrayList()
+) : PagingDataAdapter<Person, PeopleAdapter.PeopleViewHolder>(ItemsDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PeopleViewHolder(
         ItemPeopleBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -28,36 +26,8 @@ class PeopleAdapter constructor(
     )
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
-        holder.bind(itemsOnScreen[position])
+        holder.bind(getItem(position))
     }
-
-    fun addItems(
-        items: List<Person>,
-    ) {
-        this.items.addAll(items)
-        notifyChanges()
-    }
-
-    fun filter(
-        name: String,
-    ) {
-        textFilter = name
-        notifyChanges()
-    }
-
-    private fun notifyChanges() {
-        val filterResult = this.items.filter { it.name.contains(textFilter, ignoreCase = true) }
-        val result = DiffUtil.calculateDiff(
-            ItemsDiffCallback(
-                this.itemsOnScreen, filterResult,
-            )
-        )
-        this.itemsOnScreen.clear()
-        this.itemsOnScreen.addAll(filterResult)
-        result.dispatchUpdatesTo(this)
-    }
-
-    override fun getItemCount() = itemsOnScreen.size
 
     inner class PeopleViewHolder(
         private val binding: ItemPeopleBinding,
@@ -68,20 +38,20 @@ class PeopleAdapter constructor(
             binding.nextImageButton.setOnClickListener(this)
         }
 
-        lateinit var item: Person
+        private var item: Person? = null
 
         fun bind(
-            person: Person,
+            person: Person?,
         ) {
             item = person
             with(binding) {
-                nameTextView.text = person.name
+                nameTextView.text = person?.name ?: ""
                 fromTextView.text = root.resources.getString(
                     R.string.from,
-                    person.species.name.ifBlank {
+                    person?.species?.name?.ifBlank {
                         root.resources.getString(R.string.unknown_specie)
                     },
-                    person.species.homeWorld.name.ifNullOrBlankUnknown(
+                    person?.species?.homeWorld?.name.ifNullOrBlankUnknown(
                         resources = root.resources,
                     ),
                 )
@@ -90,31 +60,67 @@ class PeopleAdapter constructor(
         }
 
         override fun onClick(view: View) {
-            clickAction.invoke(item)
+            item?.run {
+                clickAction.invoke(this)
+            }
         }
 
 
     }
 
-    private class ItemsDiffCallback(
-        private val oldData: List<Person>,
-        private val newData: List<Person>,
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldData.size
-
-        override fun getNewListSize(): Int = newData.size
-
-        override fun areItemsTheSame(
-            oldItemPosition: Int, newItemPosition: Int,
-        ): Boolean {
-            return oldData[oldItemPosition].id == newData[newItemPosition].id
+    class ItemsDiffCallback : DiffUtil.ItemCallback<Person>() {
+        override fun areItemsTheSame(oldItem: Person, newItem: Person): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(
-            oldItemPosition: Int, newItemPosition: Int,
-        ): Boolean {
-            return oldData[oldItemPosition] == newData[newItemPosition]
+        override fun areContentsTheSame(oldItem: Person, newItem: Person): Boolean {
+            return oldItem == newItem
         }
     }
 
+}
+
+
+class PeopleLoadStateAdapter : LoadStateAdapter<PeopleLoadStateViewHolder>() {
+    override fun onBindViewHolder(holder: PeopleLoadStateViewHolder, loadState: LoadState) {
+        holder.bind(loadState)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        loadState: LoadState
+    ): PeopleLoadStateViewHolder {
+        return PeopleLoadStateViewHolder.create(parent)
+    }
+}
+
+
+class PeopleLoadStateViewHolder(
+    private val binding: ItemPeopleLoadStateFooterBinding,
+) : RecyclerView.ViewHolder(binding.root) {
+    init {
+    }
+
+    fun bind(loadState: LoadState) {
+        binding.errorView.root.visibility = if (loadState is LoadState.Error) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+
+        binding.loadingView.root.visibility = if (loadState is LoadState.Loading) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
+    companion object {
+        fun create(parent: ViewGroup): PeopleLoadStateViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_people_load_state_footer, parent, false)
+            val binding = ItemPeopleLoadStateFooterBinding.bind(view)
+            return PeopleLoadStateViewHolder(binding)
+        }
+    }
 }
